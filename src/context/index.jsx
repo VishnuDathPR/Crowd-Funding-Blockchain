@@ -16,7 +16,7 @@ const signer=useSigner()
 
 
 
-const { contract } = useContract("0x0f2Fcb47C86B329b89DE5e6415Bfea036a44f3dC");
+const { contract } = useContract("0x0Af980F884e16767F78Ffe4edEC2fDBa18BdA8ED");
 const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
 
