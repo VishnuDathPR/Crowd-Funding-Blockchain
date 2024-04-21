@@ -16,7 +16,7 @@ const signer=useSigner()
 
 
 
-const { contract } = useContract("0xC6638cec4399097f8BBbA838F9bEa27aD614de4c");
+const { contract } = useContract("0x0f2Fcb47C86B329b89DE5e6415Bfea036a44f3dC");
 const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
 
@@ -39,15 +39,32 @@ const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampai
     }
   }
 
-  const deleteCampaign= async(pId)=>{
+  const deleteCampaign= async(pId,qid)=>{
     try{
-      const data= await contract.call('deleteCampaign', [pId]);
+      const data= await contract.call('deleteCampaign', [pId,qid]);
       console.log("contract call success", data)
     }catch(error){
       console.log("contract call failure", error)
     }
   }
 
+const withdrawRequest=async(pId)=>{
+  try {
+    const data= await contract.call('withdrawalRequest', [pId]);
+      console.log("contract call success", data)
+  } catch (error) {
+    console.log("contract call failure", error);
+  }
+}
+
+const deleteRequest=async(pId)=>{
+  try {
+    const data= await contract.call('deleteRequest', [pId]);
+      console.log("contract call success", data)
+  } catch (error) {
+    console.log("contract call failure", error);
+  }
+}
 
   const updateCampaign = async (form) => {
     try {
@@ -79,10 +96,33 @@ const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampai
       deadline: campaign.deadline.toNumber(),
       amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
       image: campaign.image,
+      approvalStatus:campaign.approvalStatus,
+      requestStatus:campaign.requestStatus,
+      deleteStatus:campaign.deleteStatus,
       pId: i
     }));
 
     return parsedCampaings;
+  }
+
+  const getRequest=async()=>{
+    try {
+      const requests = await contract.call('getRequests');
+      const parsedRequests = requests.map((request,i)=>({
+        owner:request.campaignOwner,
+        pId:ethers.utils.formatEther(request.campaignId.toString()),
+        amount:ethers.utils.formatEther(request.amount.toString()),
+        title:request.campaignTitle,
+        approval:request.approvalStatus,
+        requestStatus:  request.requestStatus,
+        deleteStatus:request.deleteStatus,
+        deleteDone:request.deleteDone,
+        qid:i
+      }));
+      return parsedRequests;
+    } catch (error) {
+      console.log("contract call failure", error);
+    }
   }
 
   const getUserCampaigns = async () => {
@@ -95,6 +135,12 @@ const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampai
 
   const donate = async (pId, amount) => {
     const data = await contract.call('donateToCampaign', [pId], { value: ethers.utils.parseEther(amount)});
+      
+    return data;
+  }
+
+  const approve = async (pId,qid,amount) => {
+    const data = await contract.call('approvalRequest', [pId,qid], { value: ethers.utils.parseEther(amount)});
       
     return data;
   }
@@ -128,7 +174,7 @@ return(
       getUserCampaigns,
       getDonations,
       updateCampaign,
-      deleteCampaign
+      deleteCampaign,withdrawRequest,getRequest,approve,deleteRequest
     }}>
 {children}
     </StateContext.Provider>

@@ -10,3 +10,7 @@ const CountBox = ({ title, value }) => {
 }
 
 export default CountBox
+
+
+
+// (Date.now() >= campaign.deadline)? alert("delete the item "):<FundCard />

@@ -5,6 +5,14 @@ import { daysLeft } from '../utils';
 
 const FundCard = ({ owner, title, description, target, deadline, amountCollected, image, handleClick }) => {
   const remainingDays = daysLeft(deadline);
+
+  const date = new Date(deadline);
+  console.log(date.toDateString());
+  console.log(Date.now())
+  if(Date.now() >= deadline){
+    console.log("delete")
+  }
+  
   
   return (
     <div className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer" onClick={handleClick}>

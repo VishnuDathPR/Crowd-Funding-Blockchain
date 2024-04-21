@@ -13,12 +13,15 @@ const Home = () => {
     setIsLoading(true);
     const data = await getCampaigns();
     setCampaigns(data);
+    console.log(data)
     setIsLoading(false);
   }
 
   useEffect(() => {
     if(contract) fetchCampaigns();
   }, [address, contract]);
+
+  
 
   return (
     <DisplayCampaigns 

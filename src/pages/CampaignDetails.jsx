@@ -6,15 +6,29 @@ import { useStateContext } from '../context';
 import { CountBox, CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
 import { thirdweb } from '../assets';
+import MessageEth from '../components/MessageEth';
 
 const CampaignDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { donate, getDonations, contract, address ,deleteCampaign} = useStateContext();
+  const { donate, getDonations, contract, address ,deleteCampaign,withdrawRequest,getRequest,deleteRequest} = useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
   const [donators, setDonators] = useState([]);
+  const [request, setRequest] = useState([]);
+
+
+  const fetchRequest = async () => {
+    setIsLoading(true);
+    const data = await getRequest();
+    setRequest(data);
+    console.log(data)
+    setIsLoading(false);
+  }
+
+  console.log(request);
+
 
   const remainingDays = daysLeft(state.deadline);
 
@@ -25,7 +39,7 @@ const CampaignDetails = () => {
   }
 
   useEffect(() => {
-    if(contract) fetchDonators();
+    if(contract) {fetchDonators();fetchRequest()}
   }, [contract, address])
 
   const handleDonate = async () => {
@@ -52,6 +66,29 @@ const handleDelete = async () => {
   navigate('/')
   setIsLoading(false);
 }
+
+
+const handleRequest = async () => {
+  setIsLoading(true);
+  
+  await withdrawRequest(state.pId);
+  
+  navigate('/')
+  setIsLoading(false);
+}
+
+const handleDeleteRequest = async () => {
+  setIsLoading(true);
+  
+  await deleteRequest(state.pId);
+  
+  navigate('/')
+  setIsLoading(false);
+}
+
+console.log(state.deleteStatus);
+
+const contractOwner=0x7e32126e47993860FF2f741510Fd6af47738bE86n;
 
   return (
     <div>
@@ -134,40 +171,61 @@ const handleDelete = async () => {
                 <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">Back it because you believe in it.</h4>
                 <p className="mt-[20px] font-epilogue font-normal leading-[22px] text-[#808191]">Support the project for no reward, just because it speaks to you.</p>
               </div>
+              {state.approvalStatus ? (
+  <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">Approved</h4>
+) : (
+  <>
+    {state.amountCollected !== state.target || state.amountCollected < state.target ? (
+      <CustomButton 
+        btnType="button"
+        title="Fund Campaign"
+        styles="w-full bg-[#8c6dfd]"
+        handleClick={handleDonate}
+      />
+    ) : (
+      <MessageEth msg="The target amount has been reached"/>
+    )}
+    <br/><br/>
+    {state.owner === address && (
+      <CustomButton 
+        btnType="button"
+        title="Edit" 
+        styles="w-full bg-[#8c6dfd]"
+        handleClick={handleUpdate}
+      />
+    )}
+    <br/><br/>
+    {contractOwner === address && (
+      <CustomButton 
+        btnType="button"
+        title="Delete"
+        styles="w-full bg-[#8c6dfd]"
+        handleClick={() => handleDelete(state.pId)}
+      />
+    )}
+    <br/><br/>
+    {state.owner === address && state.amountCollected >= state.target && !state.requestStatus && (
+      <CustomButton 
+        btnType="button"
+        title="WithdrawalRequest"
+        styles="w-full bg-[#8c6dfd]"
+        handleClick={() => handleRequest(state.pId)}
+      />
+    )}
+    {state.owner === address && state.requestStatus && <MessageEth msg="Withdrawal Request has been sent"/>}
+    <br/><br/>
+    {state.owner === address && !state.deleteStatus && (
+      <CustomButton 
+        btnType="button"
+        title="DeleteRequest"
+        styles="w-full bg-[#8c6dfd]"
+        handleClick={() => handleDeleteRequest(state.pId)}
+      />
+    )}
+    {state.owner === address && state.deleteStatus && <MessageEth msg="Delete Request has been sent"/>}
+  </>
+)}
 
-              <CustomButton 
-                btnType="button"
-                title="Fund Campaign"
-                styles="w-full bg-[#8c6dfd]"
-                handleClick={handleDonate}
-              />
-            <br/><br/>
-                {state.owner == address ? 
-                ( 
-                  <CustomButton 
-                  btnType="button"
-                  title=
-                  "Edit" 
-                  styles="w-full bg-[#8c6dfd]"
-                  handleClick={() => {
-                    if(state.owner == address) handleUpdate()
-                  }}
-                  />
-                ) : ""
-              } <br/><br/>
-                {state.owner == address ? 
-                  (
-                    <CustomButton 
-                    btnType="button"
-                    title=  
-                    "Delete"
-                    styles="w-full bg-[#8c6dfd]"
-                    handleClick={() => {
-                      if(state.owner == address) handleDelete(state.pId)
-                    }}
-                    />
-                  ) : "" 
-                }
             </div>
           </div>
         </div>

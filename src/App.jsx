@@ -4,6 +4,8 @@ import {  Route, Routes } from 'react-router-dom';
 import { Sidebar, Navbar } from './components';
 import { CampaignDetails, CreateCampaign, Home, Profile } from './pages';
 import  UpdateCampaign  from "./pages/UpdateCampaign";
+import RequestPage from "./pages/RequestPage";
+
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
           <Route path="/create-campaign" element={<CreateCampaign />} />
           <Route path="/campaign-details/:id" element={<CampaignDetails />} />
           <Route path="/campaign-update/:id" element={<UpdateCampaign />} />
+          <Route path="/campaign-request" element={<RequestPage/>}/>
         </Routes>
         </div>
     </div>

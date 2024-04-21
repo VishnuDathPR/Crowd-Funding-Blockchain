@@ -1,0 +1,46 @@
+ <CustomButton 
+                btnType="button"
+                title="Fund Campaign"
+                styles="w-full bg-[#8c6dfd]"
+                handleClick={handleDonate}
+              />
+            <br/><br/>
+                {state.owner == address ? 
+                ( 
+                  <CustomButton 
+                  btnType="button"
+                  title=
+                  "Edit" 
+                  styles="w-full bg-[#8c6dfd]"
+                  handleClick={() => {
+                    if(state.owner == address) handleUpdate()
+                  }}
+                  />
+                ) : ""
+              } <br/><br/>
+                {contractOwner == address ? 
+                  (
+                    <CustomButton 
+                    btnType="button"
+                    title=  
+                    "Delete"
+                    styles="w-full bg-[#8c6dfd]"
+                    handleClick={() => {
+                      if(state.owner == address) handleDelete(state.pId)
+                    }}
+                    />
+                  ) : "" 
+                }<br/><br/>
+                {state.owner == address &&  state.amountCollected>=state.target? 
+                  (
+                    <CustomButton 
+                    btnType="button"
+                    title=  
+                    "WithdrawalRequest"
+                    styles="w-full bg-[#8c6dfd]"
+                    handleClick={() => {
+                      if(state.owner == address) handleRequest(state.pId)
+                    }}
+                    />
+                  ) : "" 
+                }
