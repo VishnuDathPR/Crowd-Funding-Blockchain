@@ -49,7 +49,7 @@ if(loading){
         )}
 
         {!isLoading && campaigns.length > 0 && campaigns.map((campaign, index) => {
-          if (Date.now() >= campaign.deadline && campaign.owner == address) {
+          if (Date.now() >= campaign.deadline && campaign.owner == address && !campaign.approvalStatus) {
             handleDeleteAlert(index);
           }
           return (

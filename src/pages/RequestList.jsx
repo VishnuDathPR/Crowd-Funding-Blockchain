@@ -36,7 +36,7 @@ const RequestList = ({ owner, pId, amount, title, approval, requestStatus,delete
       if(isLoading){
         return <Loader/>
       }
-      const contractOwner=0x7e32126e47993860FF2f741510Fd6af47738bE86n;
+      const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
 
  
   return (
