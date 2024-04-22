@@ -96,7 +96,7 @@ const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
 
       <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
         <div className="flex-1 flex-col">
-          <img src={state.image} alt="campaign" className="w-full h-[410px] object-cover rounded-xl"/>
+          <img src={`https://brown-neighbouring-nightingale-766.mypinata.cloud/ipfs/${state.image}`} alt="campaign" className="w-full h-[410px] object-cover rounded-xl"/>
           <div className="relative w-full h-[5px] bg-[#3a3a43] mt-2">
             <div className="absolute h-full bg-[#4acd8d]" style={{ width: `${calculateBarPercentage(state.target, state.amountCollected)}%`, maxWidth: '100%'}}>
             </div>
@@ -171,7 +171,7 @@ const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
                 <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">Back it because you believe in it.</h4>
                 <p className="mt-[20px] font-epilogue font-normal leading-[22px] text-[#808191]">Support the project for no reward, just because it speaks to you.</p>
               </div>
-              {state.approvalStatus ? (
+              {!state.approvalStatus ? (
   <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">Approved</h4>
 ) : (
   <>

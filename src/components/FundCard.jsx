@@ -7,7 +7,7 @@ const FundCard = ({ owner, title, description, target, deadline, amountCollected
 
   return (
     <div className="sm:w-[288px] w-full rounded-[15px] blue-glassmorphism cursor-pointer transition-transform ease-in-out duration-300 transform hover:scale-105 hover:translate-y-[-5px]" onClick={handleClick}>
-      <img src={image} alt="fund" className="w-full h-[158px] object-cover rounded-[15px]"/>
+      <img src={`https://brown-neighbouring-nightingale-766.mypinata.cloud/ipfs/${image}`} alt="fund" className="w-full h-[158px] object-cover rounded-[15px]"/>
 
       <div className="flex flex-col p-4">
         <div className="flex flex-row items-center mb-[18px]">
