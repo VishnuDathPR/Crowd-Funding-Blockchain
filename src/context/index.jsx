@@ -16,7 +16,7 @@ const signer=useSigner()
 
 
 
-const { contract } = useContract("0x0Af980F884e16767F78Ffe4edEC2fDBa18BdA8ED");
+const { contract } = useContract("0xf18497778815CB4d8DC8875eD2a0F5De31eF02f5");
 const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
 
@@ -42,6 +42,15 @@ const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampai
   const deleteCampaign= async(pId,qid)=>{
     try{
       const data= await contract.call('deleteCampaign', [pId,qid]);
+      console.log("contract call success", data)
+    }catch(error){
+      console.log("contract call failure", error)
+    }
+  }
+
+  const deleteCampaignAuto= async(pId)=>{
+    try{
+      const data= await contract.call('deleteCampaignAuto', [pId]);
       console.log("contract call success", data)
     }catch(error){
       console.log("contract call failure", error)
@@ -174,7 +183,7 @@ return(
       getUserCampaigns,
       getDonations,
       updateCampaign,
-      deleteCampaign,withdrawRequest,getRequest,approve,deleteRequest
+      deleteCampaign,withdrawRequest,getRequest,approve,deleteRequest,deleteCampaignAuto
     }}>
 {children}
     </StateContext.Provider>

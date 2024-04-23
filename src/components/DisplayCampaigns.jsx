@@ -10,7 +10,7 @@ import SearchBox from './SearchBox';
 
 const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   const navigate = useNavigate();
-  const { address, deleteCampaign } = useStateContext();
+  const { address, deleteCampaignAuto } = useStateContext();
 
   const handleNavigate = (campaign) => {
     navigate(`/campaign-details/${campaign.title}`, { state: campaign })
@@ -26,13 +26,15 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
    
     setLoading(true);
   
-   await deleteCampaign(index);
+   await deleteCampaignAuto(index);
   setLoading(false);
   }
 
 if(loading){
  return  <Loader/>
 }
+
+const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
 
   return (
     <div>
@@ -53,9 +55,9 @@ if(loading){
         
 
         {!isLoading && campaigns.length > 0 && campaigns.filter((campaign) => campaign.title.toLowerCase().includes(filter.toLowerCase())).map((campaign) => {
-  // if (Date.now() >= campaign.deadline && campaign.owner == address && !campaign.approvalStatus) {
-  //   handleDeleteAlert(index);
-  // }
+  if (Date.now() >= campaign.deadline && contractOwner == address && !campaign.approvalStatus) {
+    handleDeleteAlert(index);
+  }
   return (
     <FundCard 
       key={uuidv4()}
