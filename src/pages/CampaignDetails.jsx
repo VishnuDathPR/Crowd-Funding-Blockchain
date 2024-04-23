@@ -88,7 +88,7 @@ const handleDeleteRequest = async () => {
 
 console.log(state.deleteStatus);
 
-const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
+
 
   return (
     <div>
@@ -194,15 +194,7 @@ const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
         handleClick={handleUpdate}
       />
     )}
-    <br/><br/>
-    {contractOwner === address && (
-      <CustomButton 
-        btnType="button"
-        title="Delete"
-        styles="w-full bg-[#8c6dfd]"
-        handleClick={() => handleDelete(state.pId)}
-      />
-    )}
+
     <br/><br/>
     {state.owner === address && state.amountCollected >= state.target && !state.requestStatus && (
       <CustomButton 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useStateContext } from '../context'
 import { Loader } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { contractOwner } from "../constants/addressOwner";
 
 
 const RequestList = ({ owner, pId, amount, title, approval, requestStatus,deleteStatus,deleteDone,qid }) => {
@@ -36,7 +37,7 @@ const RequestList = ({ owner, pId, amount, title, approval, requestStatus,delete
       if(isLoading){
         return <Loader/>
       }
-      const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
+      // const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
 
  
   return (

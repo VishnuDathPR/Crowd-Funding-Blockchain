@@ -1,0 +1,1 @@
+export const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;

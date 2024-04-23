@@ -2,6 +2,7 @@ import React from 'react'
 import RequestList from "./RequestList";
 import { useStateContext } from '../context'
 import { useState, useEffect } from 'react'
+import { contractOwner } from "../constants/addressOwner";
 
 const RequestPage = () => {
 
@@ -10,7 +11,7 @@ const RequestPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [request, setRequest] = useState([]);
 
-  const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
+  // const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
 
   const fetchRequest = async () => {
     setIsLoading(true);

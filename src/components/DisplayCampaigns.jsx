@@ -7,6 +7,7 @@ import { useStateContext } from '../context';
 import { useState } from "react";
 import Loader from './Loader';
 import SearchBox from './SearchBox';
+import { contractOwner } from "../constants/addressOwner";
 
 const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ if(loading){
  return  <Loader/>
 }
 
-const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
+// const contractOwner=0x12973DEC5eeAb980C581722dFC35206CecFd1a11n;
 
   return (
     <div>
