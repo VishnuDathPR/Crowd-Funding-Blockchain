@@ -11,7 +11,7 @@ import MessageEth from '../components/MessageEth';
 const CampaignDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { donate, getDonations, contract, address ,deleteCampaign,withdrawRequest,getRequest,deleteRequest} = useStateContext();
+  const { donate, getDonations, contract, address ,withdrawRequest,getRequest,deleteRequest} = useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
@@ -58,14 +58,6 @@ const CampaignDetails = () => {
 }
 
 
-const handleDelete = async () => {
-  setIsLoading(true);
-  
-  await deleteCampaign(state.pId);
-  
-  navigate('/')
-  setIsLoading(false);
-}
 
 
 const handleRequest = async () => {
@@ -171,7 +163,7 @@ console.log(state.deleteStatus);
                 <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">Back it because you believe in it.</h4>
                 <p className="mt-[20px] font-epilogue font-normal leading-[22px] text-[#808191]">Support the project for no reward, just because it speaks to you.</p>
               </div>
-              {!state.approvalStatus ? (
+              {state.approvalStatus ? (
   <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">Approved</h4>
 ) : (
   <>

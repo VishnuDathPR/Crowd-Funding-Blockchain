@@ -24,6 +24,7 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   
 
   const handleDeleteAlert = async(index) => {
+    console.log(index)
    
     setLoading(true);
   
@@ -54,11 +55,13 @@ if(loading){
           </p>
         )}
         
-
-        {!isLoading && campaigns.length > 0 && campaigns.filter((campaign) => campaign.title.toLowerCase().includes(filter.toLowerCase())).map((campaign) => {
-  if (Date.now() >= campaign.deadline && contractOwner == address && !campaign.approvalStatus) {
-    handleDeleteAlert(index);
-  }
+{/* {campaigns.map((c,i)=>(
+if (Date.now() >= campaign.deadline && contractOwner == address && !campaign.approvalStatus) {
+  handleDeleteAlert(index);
+}
+))} */}
+        {!isLoading && campaigns.length > 0 && campaigns.filter((campaign) => campaign.title.toLowerCase().includes(filter.toLowerCase())).map((campaign,index) => {
+  
   return (
     <FundCard 
       key={uuidv4()}

@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-
+import { useLocation } from "react-router-dom";
 import { useStateContext } from '../context';
 import { money } from '../assets';
 import { CustomButton, FormField, Loader } from '../components';
 import { checkIfImage } from '../utils';
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 // import 'react-responsive-modal/styles.css';
 // import { Modal } from 'react-responsive-modal';
 
 const UpdateCampaign = () => {
     const navigate = useNavigate();
+    const {pathname}=useLocation();
+
+    const Id=pathname.split("/").slice(-1)[0]
+    console.log(Id)
     const [isLoading, setIsLoading] = useState(false);
     const { updateCampaign } = useStateContext();
     
     const [form, setForm] = useState({
-        id: '',
+        id: Id,
         title: '',
         description: '',
         target: '', 
@@ -46,36 +51,36 @@ const UpdateCampaign = () => {
 
         })
         const imageUrl=response.data.IpfsHash;
+        console.log(imageUrl)
         setForm({...form,image:imageUrl});
 
         alert("Successfully Image Uploaded");
         setFileName("Uploaded...")
    
       } catch (error) {
-        alert("Unable to uplade to the IPFS")        
+        alert("Unable to uplade to the IPFS")
+        console.log(console.log(error))        
       }
     }
   }
 
-  const retriveHash=(event)=>{
-
-    const data=event.target.files[0];
-    const reader=new window.FileReader();
+  const retriveHash = (event) => {
+    event.preventDefault(); // Prevent form submission
+    
+    const data = event.target.files[0];
+    const reader = new window.FileReader();
     reader.readAsArrayBuffer(data);
-    reader.onloadend=()=>{
-          setFile(event.target.files[0]);
-          if(event.target.files && event.target.files[0]){
-            setDisplayImg(URL.createObjectURL(event.target.files[0]))
-          }
-          event.preventDefault();
-        }
-
-
-  }  
+    reader.onloadend = () => {
+      setFile(event.target.files[0]);
+      if (event.target.files && event.target.files[0]) {
+        setDisplayImg(URL.createObjectURL(event.target.files[0]));
+      }
+    }
+  } 
   const handleSubmit=async()=>{
     setIsLoading(true)
     const{
-      id,
+        id,
         title,
         description,
         target, 
@@ -90,13 +95,13 @@ const UpdateCampaign = () => {
       deadline,
       image);
   
-      if(image||id||title||deadline||description){
+      if(image||title||deadline||description){
         await updateCampaign({
           ...form,
           target: ethers.utils.parseUnits(form.target, 18)
         })
         setIsLoading(false);
-        navigate('/');
+     
   
       }else{
         console.log("provide the details");
@@ -121,15 +126,6 @@ const UpdateCampaign = () => {
 
       <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
         <div className="flex flex-wrap gap-[40px]">
-          <FormField 
-            labelName="Campaign ID *"
-            placeholder="123"
-            inputType="text"
-            value={form.id}
-            handleChange={(e) => handleFormFieldChange('id', e)}
-          />
-        </div>
-        <div className="flex flex-wrap gap-[40px]">
           {/* <FormField 
             labelName="Your Name *"
             placeholder="John Doe"
@@ -145,37 +141,6 @@ const UpdateCampaign = () => {
             handleChange={(e) => handleFormFieldChange('title', e)}
           />
         </div>
-
-        <FormField 
-            labelName="Story *"
-            placeholder="Write your story"
-            isTextArea
-            value={form.description}
-            handleChange={(e) => handleFormFieldChange('description', e)}
-          />
-
-        <div className="w-full flex justify-start items-center p-4 bg-[#8c6dfd] h-[120px] rounded-[10px]">
-          <img src={money} alt="money" className="w-[40px] h-[40px] object-contain"/>
-          <h4 className="font-epilogue font-bold text-[25px] text-white ml-[20px]">You will get (100 - platformFee)% of the raised amount</h4>
-        </div>
-
-        <div className="flex flex-wrap gap-[40px]">
-          <FormField 
-            labelName="Goal *"
-            placeholder="ETH 0.50"
-            inputType="text"
-            value={form.target}
-            handleChange={(e) => handleFormFieldChange('target', e)}
-          />
-          <FormField 
-            labelName="End Date *"
-            placeholder="End Date"
-            inputType="date"
-            value={form.deadline}
-            handleChange={(e) => handleFormFieldChange('deadline', e)}
-          />
-        </div>
-
         <span className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">Uplode Image</span>
       
       <div className="relative w-64">
@@ -226,15 +191,48 @@ const UpdateCampaign = () => {
         </button>
       </div>
     </div>
+
+        <FormField 
+            labelName="Story *"
+            placeholder="Write your story"
+            isTextArea
+            value={form.description}
+            handleChange={(e) => handleFormFieldChange('description', e)}
+          />
+
+        <div className="w-full flex justify-start items-center p-4 bg-[#8c6dfd] h-[120px] rounded-[10px]">
+          <img src={money} alt="money" className="w-[40px] h-[40px] object-contain"/>
+          <h4 className="font-epilogue font-bold text-[25px] text-white ml-[20px]">You will get (100 - platformFee)% of the raised amount</h4>
+        </div>
+
+        <div className="flex flex-wrap gap-[40px]">
+          <FormField 
+            labelName="Goal *"
+            placeholder="ETH 0.50"
+            inputType="text"
+            value={form.target}
+            handleChange={(e) => handleFormFieldChange('target', e)}
+          />
+          <FormField 
+            labelName="End Date *"
+            placeholder="End Date"
+            inputType="date"
+            value={form.deadline}
+            handleChange={(e) => handleFormFieldChange('deadline', e)}
+          />
+        </div>
+
+    
     
 
-          <div className="flex justify-center items-center mt-[40px]">
-            <CustomButton 
-              btnType="submit"
-              title="Submit new campaign"
-              styles="bg-[#1dc071]"
-            />
-          </div>
+        <div className="flex justify-center items-center mt-[40px]">
+            
+            <button type="button" onClick={handleSubmit} className="font-semibold border-none bg-[#4066ff] p-4 text-white">
+    Edit
+  </button>
+  
+  
+            </div>
       </form>
     </div>
   )
