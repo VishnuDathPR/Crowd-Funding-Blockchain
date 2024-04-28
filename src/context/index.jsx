@@ -183,7 +183,7 @@ return(
       getUserCampaigns,
       getDonations,
       updateCampaign,
-      deleteCampaign,withdrawRequest,getRequest,approve,deleteRequest,deleteCampaignAuto
+      deleteCampaign,withdrawRequest,getRequest,approve,deleteRequest,deleteCampaignAuto,disconnect
     }}>
 {children}
     </StateContext.Provider>

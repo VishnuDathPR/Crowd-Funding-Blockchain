@@ -1,0 +1,12 @@
+.property-container{
+    gap: 2rem;
+    position: relative;
+}
+
+.property-container>img{
+    align-self: center;
+    width: 100%;
+    border-radius: 10px;
+    max-height: 35rem;
+    object-fit: cover;
+}

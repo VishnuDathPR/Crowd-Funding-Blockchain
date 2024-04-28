@@ -6,7 +6,7 @@ const FundCard = ({ owner, title, description, target, deadline, amountCollected
   const remainingDays = daysLeft(deadline);
 
   return (
-    <div className="sm:w-[288px] w-full rounded-[15px] blue-glassmorphism cursor-pointer transition-transform ease-in-out duration-300 transform hover:scale-105 hover:translate-y-[-5px]" onClick={handleClick}>
+    <div className="sm:w-[258px] w-full rounded-[15px] blue-glassmorphism cursor-pointer transition-transform ease-in-out duration-300 transform hover:scale-105 hover:translate-y-[-5px]" onClick={handleClick}>
       <img src={`https://brown-neighbouring-nightingale-766.mypinata.cloud/ipfs/${image}`} alt="fund" className="w-full h-[158px] object-cover rounded-[15px]"/>
 
       <div className="flex flex-col p-4">

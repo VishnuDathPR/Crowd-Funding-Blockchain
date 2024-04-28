@@ -7,6 +7,7 @@ import { CountBox, CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
 import { thirdweb } from '../assets';
 import MessageEth from '../components/MessageEth';
+import Header from '../components/Header/Header';
 
 const CampaignDetails = () => {
   const { state } = useLocation();
@@ -47,7 +48,7 @@ const CampaignDetails = () => {
 
     await donate(state.pId, amount); 
 
-    navigate('/')
+    window.location.reload();
     setIsLoading(false);
   }
 
@@ -83,7 +84,9 @@ console.log(state.deleteStatus);
 
 
   return (
-    <div>
+    <>
+    <Header/>
+    <div className='paddings  max-sm:w-full mx-auto max-w-[1280px]'>
       {isLoading && <Loader />}
 
       <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
@@ -215,6 +218,7 @@ console.log(state.deleteStatus);
         </div>
       </div>
     </div>
+    </>
   )
 }
 

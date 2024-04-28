@@ -3,6 +3,7 @@ import RequestList from "./RequestList";
 import { useStateContext } from '../context'
 import { useState, useEffect } from 'react'
 import { contractOwner } from "../constants/addressOwner";
+import Header from '../components/Header/Header';
 
 const RequestPage = () => {
 
@@ -27,8 +28,10 @@ const RequestPage = () => {
 
 
   return (
+    <>
+    <Header/>
     <div>
-        <div className="mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px]">
+        <div className="mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] mx-auto max-w-[1280px]">
             <p className="font-epilogue fount-medium text-[20px] leading-[30px] text-center text-[#808191]">
               Requests({request.length})
             </p>
@@ -49,6 +52,7 @@ const RequestPage = () => {
           </p>:""}
           </div>
     </div>
+    </>
   )
 }
 
